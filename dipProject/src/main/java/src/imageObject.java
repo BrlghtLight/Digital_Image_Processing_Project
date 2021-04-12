@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class imageObject {
 
     private BufferedImage image;
+    private BufferedImage image2;
     private File selectedFile;
 
     //default
@@ -24,10 +25,19 @@ public class imageObject {
         this.selectedFile = selectedFile;
     }
 
+    //overload
+    public imageObject(BufferedImage image, BufferedImage image2, File selectedFile) {
+        this.image = image;
+        this.image2 = image2;
+        this.selectedFile = selectedFile;
+    }
+
     // get && set
     public BufferedImage getImage() {
         return image;
     }
+
+    public BufferedImage getImage2() { return image2; }
 
     public File getSelectedFile() {
         return selectedFile;
@@ -36,6 +46,8 @@ public class imageObject {
     public void setImage(BufferedImage image) {
         this.image = image;
     }
+
+    public void setImage2(BufferedImage image2) { this.image2 = image2; }
 
     public void setSelectedFile(File selectedFile) {
         this.selectedFile = selectedFile;
@@ -62,31 +74,19 @@ public class imageObject {
     }
 
     public void doAddition() throws IOException {
-        ArrayList results = transformationOperations.arithmetic(this.image);
-        int[][] result = (int[][]) results.get(0);
-        int[][] result2 = (int[][]) results.get(1);
-        transformationOperations.addition(this.image, result, result2);
+        transformationOperations.imageAddition(this.image, this.image2);
     }
 
     public void doSubtraction() throws IOException {
-        ArrayList results = transformationOperations.arithmetic(this.image);
-        int[][] result = (int[][]) results.get(0);
-        int[][] result2 = (int[][]) results.get(1);
-        transformationOperations.subtraction(this.image, result, result2);
+        transformationOperations.imageSubtraction(this.image, this.image2);
     }
 
     public void doMultiplication() throws IOException {
-        ArrayList results = transformationOperations.arithmetic(this.image);
-        int[][] result = (int[][]) results.get(0);
-        int[][] result2 = (int[][]) results.get(1);
-        transformationOperations.multiplication(this.image, result, result2);
+        transformationOperations.imageMultiplication(this.image, this.image2);
     }
 
     public void doDivision() throws IOException {
-        ArrayList results = transformationOperations.arithmetic(this.image);
-        int[][] result = (int[][]) results.get(0);
-        int[][] result2 = (int[][]) results.get(1);
-        transformationOperations.division(this.image, result, result2);
+        transformationOperations.imageDivision(this.image, this.image2);
     }
 
 }

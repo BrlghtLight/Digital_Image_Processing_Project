@@ -2,6 +2,7 @@ package src;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -65,94 +66,78 @@ public class transformationOperations {
         }
     }
 
-    public static ArrayList arithmetic(BufferedImage fileImage) throws IOException {
-        final byte[] image = ((DataBufferByte) fileImage.getRaster().getDataBuffer()).getData();
+    public static void imageSubtraction(BufferedImage fileImage, BufferedImage fileImage2) throws IOException {
         int imageWidth = fileImage.getWidth();
         int imageHeight = fileImage.getHeight();
-        int[][] result = new int[imageHeight][imageWidth];
-        int[][] result2 = new int[imageHeight][imageWidth];
-        ArrayList results = new ArrayList();
 
-        for (int pixel = 0, row = 0, col = 0; pixel < image.length; pixel++) {
-            int argb = 0;
-            argb = (int) image[pixel];
-
-            if (argb < 0) {
-                argb += 256;
-            }
-
-            result[row][col] = argb;
-            col++;
-
-            if (col == imageWidth) {
-                col = 0;
-                row++;
-            }
-        }
-
-        for (int pixel = 0, row = 0, col = 0; pixel < image.length; pixel++) {
-            int argb = 0;
-            argb = (int) image[pixel];
-
-            if (argb < 0) {
-                argb += 256;
-            }
-
-            result2[row][col] = argb;
-            col++;
-
-            if (col == imageWidth) {
-                col = 0;
-                row++;
-            }
-        }
-        results.add(result);
-        results.add(result2);
-        return results;
-    }
-
-    public static void addition(BufferedImage fileImage, int result[][], int result2[][]) {
-        int solution[][] = new int[fileImage.getHeight()][fileImage.getWidth()];
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                solution[i][j] = result[i][j] + result2[i][j];
-
+        for(int j = 0; j < imageHeight; ++j) {
+            for(int i = 0; i < imageWidth; ++i) {
+                int pixel = fileImage.getRGB(i, j);
+                int pixel2 = fileImage2.getRGB(i, j);
+                int r = pixel >> 16 & 255;
+                int r2 = pixel2 >> 16 & 255;
+                int min = 2147483647;
+                int max = -2147483648;
+                pixel = r2 - r;
+                pixel = (pixel - min) / (max - min) - 255;
+                pixel = -16777216 | (pixel & 255) << 16 | (pixel & 255) << 8 | pixel & 255;
+                fileImage.setRGB(i, j, pixel);
             }
         }
     }
 
-    public static void subtraction(BufferedImage fileImage, int result[][], int result2[][]) {
-        int solution[][] = new int[fileImage.getHeight()][fileImage.getWidth()];
+    public static void imageAddition(BufferedImage fileImage, BufferedImage fileImage2) throws IOException {
+        int imageWidth = fileImage.getWidth();
+        int imageHeight = fileImage.getHeight();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                solution[i][j] = result[i][j] - result2[i][j];
-
+        for(int j = 0; j < imageHeight; ++j) {
+            for(int i = 0; i < imageWidth; ++i) {
+                int pixel = fileImage.getRGB(i, j);
+                int pixel2 = fileImage2.getRGB(i, j);
+                int r = pixel >> 16 & 255;
+                int r2 = pixel2 >> 16 & 255;
+                pixel = r2 + r + 255;
+                pixel = -16777216 | (pixel & 255) << 16 | (pixel & 255) << 8 | pixel & 255;
+                fileImage.setRGB(i, j, pixel);
             }
         }
     }
 
-    public static void multiplication(BufferedImage fileImage, int result[][], int result2[][]) {
-        int solution[][] = new int[fileImage.getHeight()][fileImage.getWidth()];
+    public static void imageMultiplication(BufferedImage fileImage, BufferedImage fileImage2) throws IOException {
+        int imageWidth = fileImage.getWidth();
+        int imageHeight = fileImage.getHeight();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                solution[i][j] = result[i][j] * result2[i][j];
-
+        for(int j = 0; j < imageHeight; ++j) {
+            for (int i = 0; i < imageWidth; ++i) {
+                int pixel = fileImage.getRGB(i, j);
+                int pixel2 = fileImage2.getRGB(i, j);
+                int r = pixel >> 16 & 255;
+                int r2 = pixel2 >> 16 & 255;
+                pixel = r2 * r * 255;
+                pixel = -16777216 | (pixel & 255) << 16 | (pixel & 255) << 8 | pixel & 255;
+                fileImage.setRGB(i, j, pixel);
             }
         }
     }
 
-    public static void division(BufferedImage fileImage, int result[][], int result2[][]) {
-        int solution[][] = new int[fileImage.getHeight()][fileImage.getWidth()];
+    public static void imageDivision(BufferedImage fileImage, BufferedImage fileImage2) throws IOException {
+        int imageWidth = fileImage.getWidth();
+        int imageHeight = fileImage.getHeight();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                solution[i][j] = result[i][j] / result2[i][j];
+        for (int j = 0; j < imageHeight; ++j) {
+            for (int i = 0; i < imageWidth; ++i) {
+                int pixel = fileImage.getRGB(i, j);
+                int pixel2 = fileImage2.getRGB(i, j);
+                int r = pixel >> 16 & 255;
+                pixel = r;
+                int r2 = pixel2 >> 16 & 255;
+                if (r > 0 && r2 > 0) {
+                    pixel = r2 / r * 255;
+                }
 
+                pixel = -16777216 | (pixel & 255) << 16 | (pixel & 255) << 8 | pixel & 255;
+                fileImage.setRGB(i, j, pixel);
             }
         }
     }
-
 }
