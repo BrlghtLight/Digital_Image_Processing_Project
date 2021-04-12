@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class transformationOperations {
 
-    int C = 48;
+    int c = 48;
 
     public static void powerLawTransform(BufferedImage fileImage) throws IOException {
         int imageWidth = fileImage.getWidth();
