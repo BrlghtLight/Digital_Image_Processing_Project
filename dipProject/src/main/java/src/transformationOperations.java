@@ -1,10 +1,8 @@
 package src;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -12,18 +10,17 @@ import java.util.ArrayList;
  */
 public class transformationOperations {
 
-    int c = 48;
-
     public static void powerLawTransform(BufferedImage fileImage) throws IOException {
         int imageWidth = fileImage.getWidth();
         int imageHeight = fileImage.getHeight();
-        double gamma = 0.3D;
+        int c = Integer.parseInt(JOptionPane.showInputDialog("Gamma Value?: "));;
+        double gamma = Double.parseDouble(JOptionPane.showInputDialog("Gamma Value?: "));;
 
         for (int i = 0; i < imageWidth; ++i) {
             for (int j = 0; j < imageHeight; ++j) {
                 int pixel = fileImage.getRGB(i, j);
                 int r = pixel >> 16 & 255;
-                pixel = (int) (48.0D * Math.pow((double) r, gamma));
+                pixel = (int) (c * Math.pow((double) r, gamma));
                 pixel = 805306368 | (pixel & 255) << 16 | (pixel & 255) << 8 | pixel & 255;
                 fileImage.setRGB(i, j, pixel);
             }
@@ -47,10 +44,11 @@ public class transformationOperations {
 
     public static void logTransformation(BufferedImage fileImage) throws IOException {
         int[] logTable;
+        int c = Integer.parseInt(JOptionPane.showInputDialog("C Value?: "));;
         logTable = new int[256];
 
         for (int i = 0; i < 256; ++i) {
-            logTable[i] = (int) (46.0D * Math.log((double) (i + 1)));
+            logTable[i] = (c * (int)(Math.log((double)(i + 1))));
         }
 
         int width = fileImage.getWidth();
