@@ -3,10 +3,8 @@ package src;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
- *
  * @author Ellen, Marcus
  */
 public class imageObject {
@@ -37,7 +35,9 @@ public class imageObject {
         return image;
     }
 
-    public BufferedImage getImage2() { return image2; }
+    public BufferedImage getImage2() {
+        return image2;
+    }
 
     public File getSelectedFile() {
         return selectedFile;
@@ -47,7 +47,9 @@ public class imageObject {
         this.image = image;
     }
 
-    public void setImage2(BufferedImage image2) { this.image2 = image2; }
+    public void setImage2(BufferedImage image2) {
+        this.image2 = image2;
+    }
 
     public void setSelectedFile(File selectedFile) {
         this.selectedFile = selectedFile;

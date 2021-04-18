@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author Ellen & Marcus
  */
 public class client extends javax.swing.JFrame {
@@ -90,7 +89,7 @@ public class client extends javax.swing.JFrame {
         transformArea.setFont(new java.awt.Font("DialogInput", 0, 14)); // NOI18N
         transformArea.setForeground(new java.awt.Color(0, 255, 204));
         transformArea.setRows(5);
-        transformArea.setText("Transformations:\n\n > Addition\n > Subtraction\n > Multiplication\n > Division\n > Negative-Log\n > Power-Law\n > Log");
+        transformArea.setText("Transformations:\n\n > Addition\n > Subtraction\n > Multiplication\n > Division\n > Negative\n > Power-Law\n > Log");
         transformArea.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 153)));
         transformScroll.setViewportView(transformArea);
 
@@ -158,6 +157,11 @@ public class client extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Allows a user to select up to two image files via input
+     * and then display the primary image to the interface
+     * Creates buffered images and a JLabel to the GUI
+     */
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
 
         String imageCount = JOptionPane.showInputDialog("How Many Images?: ");
@@ -204,6 +208,13 @@ public class client extends javax.swing.JFrame {
         selectedImage = new imageObject(readImage, readImage2, selectedFile);
     }//GEN-LAST:event_selectButtonActionPerformed
 
+    /**
+     * Processes a desired transformation or edit to the selected image file once
+     * the user enters which operation they want to perform to the
+     * transformation text field and click the process button
+     *
+     * @param evt
+     */
     private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
 
         String userInput = transformField.getText();
@@ -251,7 +262,7 @@ public class client extends javax.swing.JFrame {
             imageLabel.setIcon(labelIcon);
 
         }
-        if (userInput.equalsIgnoreCase("Negative-Log")) {
+        if (userInput.equalsIgnoreCase("Negative")) {
             try {
                 selectedImage.makeImageNegative();
             } catch (IOException ex) {
